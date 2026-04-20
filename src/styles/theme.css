@@ -1,0 +1,13 @@
+:root {
+  --bg: oklch(0.17 0.012 240);
+  --bg-2: oklch(0.2 0.013 240);
+  --bg-3: oklch(0.24 0.014 240);
+  --fg: oklch(0.94 0.005 240);
+  --fg-dim: oklch(0.72 0.008 240);
+  --fg-mute: oklch(0.5 0.01 240);
+  --rule: oklch(0.3 0.012 240);
+  --accent: oklch(0.86 0.18 138);
+  --accent-ink: oklch(0.2 0.05 140);
+  --warn: oklch(0.82 0.14 75);
+  --link: var(--accent);
+}

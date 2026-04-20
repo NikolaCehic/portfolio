@@ -1,0 +1,26 @@
+.footer {
+  border-top: 1px solid var(--rule);
+  padding: 40px 0 60px;
+  font-size: 11px;
+  color: var(--fg-mute);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 720px) {
+  .footer {
+    grid-template-columns: 1fr;
+  }
+}
+
+.col b {
+  color: var(--fg-dim);
+  font-weight: 500;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.right {
+  text-align: right;
+}

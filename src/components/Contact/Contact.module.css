@@ -1,0 +1,97 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.lead {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 32px;
+  line-height: 1.2;
+  margin: 0 0 24px 0;
+  letter-spacing: -0.02em;
+  max-width: 22ch;
+}
+
+.leadAccent {
+  color: var(--accent);
+}
+
+.note {
+  color: var(--fg-dim);
+  font-size: 13px;
+  max-width: 52ch;
+}
+
+.table {
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: color-mix(in oklab, var(--bg-2) 60%, transparent);
+  padding: 4px 0;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 110px 1fr auto;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--rule);
+  font-size: 13px;
+  transition: background 0.15s;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.row:hover {
+  background: color-mix(in oklab, var(--accent) 5%, transparent);
+}
+
+.label {
+  color: var(--fg-mute);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.value {
+  color: var(--fg);
+}
+
+.valueDim {
+  color: var(--fg-dim);
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.copy {
+  font-size: 10px;
+  color: var(--fg-mute);
+  border: 1px solid var(--rule);
+  padding: 3px 8px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.copy.copied {
+  color: var(--accent);
+  border-color: color-mix(in oklab, var(--accent) 50%, var(--rule));
+}
+
+.ext {
+  color: var(--fg-mute);
+  font-size: 12px;
+}
+
+@media (max-width: 820px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

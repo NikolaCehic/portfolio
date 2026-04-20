@@ -1,0 +1,86 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+}
+
+.cell {
+  padding: 24px 28px;
+  transition: background 0.2s;
+  background: transparent;
+  min-height: 130px;
+  border-bottom: 1px solid var(--rule);
+  border-right: 1px solid var(--rule);
+}
+
+.cell.hover {
+  background: color-mix(in oklab, var(--accent) 5%, transparent);
+}
+
+.cell.lastRow {
+  border-bottom: none;
+}
+
+.cell.rightCol {
+  border-right: none;
+}
+
+.cellHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 14px;
+}
+
+.cellTitle {
+  font-size: 11px;
+  color: var(--fg-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.tree {
+  color: var(--fg-mute);
+}
+
+.treeActive {
+  color: var(--accent);
+}
+
+.cellCount {
+  font-size: 10px;
+  color: var(--fg-mute);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.footnote {
+  margin-top: 20px;
+  font-size: 11px;
+  color: var(--fg-mute);
+}
+
+.footnoteAccent {
+  color: var(--accent);
+}
+
+@media (max-width: 760px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .cell {
+    border-right: 0 !important;
+  }
+  .cell.lastRow {
+    border-bottom: 1px solid var(--rule);
+  }
+  .cell:last-child {
+    border-bottom: 0;
+  }
+}

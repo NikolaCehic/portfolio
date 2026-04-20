@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Nikola Ćehić — Senior Fullstack Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap">
+<style>
+  :root {
+    /* Dark (default) */
+    --bg:      oklch(0.17 0.012 240);
+    --bg-2:    oklch(0.20 0.013 240);
+    --bg-3:    oklch(0.24 0.014 240);
+    --fg:      oklch(0.94 0.005 240);
+    --fg-dim:  oklch(0.72 0.008 240);
+    --fg-mute: oklch(0.50 0.010 240);
+    --rule:    oklch(0.30 0.012 240);
+    --accent:  oklch(0.86 0.18 138);
+    --accent-ink: oklch(0.20 0.05 140);
+    --warn:    oklch(0.82 0.14 75);
+    --link:    var(--accent);
+  }
+  html[data-theme="light"] {
+    --bg:      oklch(0.98 0.003 90);
+    --bg-2:    oklch(0.95 0.004 90);
+    --bg-3:    oklch(0.91 0.005 90);
+    --fg:      oklch(0.20 0.008 240);
+    --fg-dim:  oklch(0.42 0.010 240);
+    --fg-mute: oklch(0.60 0.012 240);
+    --rule:    oklch(0.82 0.008 240);
+    --accent:  oklch(0.55 0.16 138);
+    --accent-ink: oklch(0.98 0.004 140);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--fg); }
+  body {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 14px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    cursor: none;
+  }
+  @media (max-width: 720px) { body { cursor: auto; } }
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+  a { color: var(--fg); text-decoration: none; }
+  a:hover { color: var(--accent); }
+  button { font: inherit; color: inherit; background: none; border: none; cursor: none; }
+  @media (max-width: 720px) { button { cursor: pointer; } }
+
+  /* Custom cursor */
+  .cursor-dot, .cursor-ring {
+    position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: difference;
+  }
+  .cursor-dot {
+    width: 6px; height: 6px; background: var(--accent); border-radius: 50%;
+    transition: width 0.15s, height 0.15s, background 0.15s;
+  }
+  .cursor-ring {
+    width: 28px; height: 28px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    transition: width 0.2s ease, height 0.2s ease, border-color 0.15s, opacity 0.2s;
+  }
+  .cursor-ring.hover { width: 52px; height: 52px; }
+  .cursor-ring.text { width: 2px; height: 22px; border-radius: 0; background: var(--accent); border: none; }
+  @media (max-width: 720px) { .cursor-dot, .cursor-ring { display: none; } }
+
+  /* Layout */
+  .page {
+    position: relative; z-index: 1;
+    max-width: 1200px; margin: 0 auto; padding: 0 32px;
+  }
+  @media (max-width: 720px) { .page { padding: 0 20px; } }
+
+  /* Top bar */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(12px);
+    background: color-mix(in oklab, var(--bg) 82%, transparent);
+    border-bottom: 1px solid var(--rule);
+  }
+  .topbar-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 32px;
+    font-size: 12px;
+  }
+  @media (max-width: 720px) { .topbar-inner { padding: 12px 20px; font-size: 11px; } }
+  .topbar .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent); margin-right: 8px;
+    box-shadow: 0 0 10px color-mix(in oklab, var(--accent) 70%, transparent); }
+  .topbar nav { display: flex; gap: 22px; }
+  .topbar nav a { color: var(--fg-dim); }
+  .topbar nav a.active, .topbar nav a:hover { color: var(--fg); }
+  .topbar nav a .num { color: var(--fg-mute); margin-right: 4px; }
+  @media (max-width: 720px) { .topbar nav { display: none; } }
+
+  .theme-toggle {
+    font-size: 11px; color: var(--fg-dim);
+    border: 1px solid var(--rule); padding: 4px 8px; border-radius: 2px;
+    display: inline-flex; gap: 6px; align-items: center;
+  }
+  .theme-toggle:hover { color: var(--fg); border-color: var(--fg-dim); }
+
+  /* Section scaffolding */
+  section { padding: 120px 0; position: relative; }
+  @media (max-width: 720px) { section { padding: 80px 0; } }
+  .section-head {
+    display: grid; grid-template-columns: 160px 1fr; gap: 48px;
+    align-items: baseline; margin-bottom: 64px;
+    border-top: 1px solid var(--rule); padding-top: 32px;
+  }
+  @media (max-width: 720px) { .section-head { grid-template-columns: 1fr; gap: 8px; margin-bottom: 40px; } }
+  .section-head .meta { font-size: 11px; color: var(--fg-mute); letter-spacing: 0.08em; text-transform: uppercase; }
+  .section-head h2 { margin: 0; font-family: 'IBM Plex Mono', monospace; font-weight: 500;
+    font-size: 44px; letter-spacing: -0.02em; line-height: 1; }
+  @media (max-width: 720px) { .section-head h2 { font-size: 32px; } }
+  .section-head h2 .caret { color: var(--accent); }
+
+  /* === Animated background canvas === */
+  .bg-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.55; }
+  html[data-theme="light"] .bg-canvas { opacity: 0.35; }
+
+  /* Scroll progress */
+  .scroll-progress { position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: var(--accent); z-index: 101; transition: width 0.08s linear; box-shadow: 0 0 12px var(--accent); }
+
+  /* Reveal stagger */
+  .reveal > * { opacity: 0; transform: translateY(40px); transition: opacity 0.9s cubic-bezier(.2,.7,.2,1), transform 0.9s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in > * { opacity: 1; transform: none; }
+  .reveal.in > *:nth-child(1) { transition-delay: 0ms; }
+  .reveal.in > *:nth-child(2) { transition-delay: 120ms; }
+  .reveal.in > *:nth-child(3) { transition-delay: 220ms; }
+  .reveal.in > *:nth-child(4) { transition-delay: 320ms; }
+  .reveal.in > *:nth-child(5) { transition-delay: 420ms; }
+
+  [data-parallax] { will-change: transform; transition: transform 0.15s linear; }
+
+  /* Glitch hover on section headings */
+  @keyframes glitchShift {
+    0% { transform: translate(0,0); }
+    20% { transform: translate(-1px, 1px); }
+    40% { transform: translate(1px, -1px); }
+    60% { transform: translate(-1px, 0); }
+    80% { transform: translate(1px, 1px); }
+    100% { transform: translate(0,0); }
+  }
+  .glitch { position: relative; display: inline-block; }
+  .glitch:hover { animation: glitchShift 0.4s steps(5); }
+  .glitch:hover::before, .glitch:hover::after {
+    content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%;
+  }
+  .glitch:hover::before { color: var(--accent); clip-path: inset(0 0 60% 0); transform: translate(-2px, 0); }
+  .glitch:hover::after { color: oklch(0.75 0.2 30); clip-path: inset(60% 0 0 0); transform: translate(2px, 0); }
+
+  .magnetic { display: inline-block; transition: transform 0.2s cubic-bezier(.2,.7,.2,1); }
+
+  /* Custom cursor */
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 40px 0 60px;
+    font-size: 11px; color: var(--fg-mute);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+  }
+  @media (max-width: 720px) { footer { grid-template-columns: 1fr; } }
+  footer .col b { color: var(--fg-dim); font-weight: 500; display: block; margin-bottom: 6px; }
+
+  /* Utility */
+  .tag {
+    display: inline-block; padding: 3px 8px; border: 1px solid var(--rule);
+    border-radius: 2px; font-size: 11px; color: var(--fg-dim);
+  }
+  .tag.accent { color: var(--accent); border-color: color-mix(in oklab, var(--accent) 50%, var(--rule)); }
+
+  /* Boot overlay */
+  #boot {
+    position: fixed; inset: 0; z-index: 100; background: var(--bg);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--fg-dim); font-size: 12px;
+    transition: opacity 0.4s;
+  }
+  #boot.gone { opacity: 0; pointer-events: none; }
+
+  /* Tweaks panel */
+  .tweaks {
+    position: fixed; bottom: 20px; right: 20px; z-index: 60;
+    background: var(--bg-2); border: 1px solid var(--rule); border-radius: 4px;
+    padding: 12px 14px; font-size: 12px; min-width: 220px;
+    display: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  }
+  .tweaks.open { display: block; }
+  .tweaks header { display: flex; justify-content: space-between; align-items: center;
+    color: var(--fg-mute); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+  .tweaks .row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; }
+  .tweaks .seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+  .tweaks .seg button { padding: 4px 10px; font-size: 11px; color: var(--fg-dim); }
+  .tweaks .seg button.on { background: var(--accent); color: var(--accent-ink); }
+</style>
+</head>
+<body>
+  <canvas class="bg-canvas" id="bg-canvas"></canvas>
+  <div class="scroll-progress" id="scroll-progress"></div>
+  <div class="cursor-ring"></div>
+  <div class="cursor-dot"></div>
+
+  <div id="boot">initializing&nbsp;<span id="boot-dots">...</span></div>
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div><span class="dot"></span><span style="color:var(--fg-dim)">nikolacehic</span><span style="color:var(--fg-mute)">@portfolio:~$</span></div>
+      <nav>
+        <a href="#hero" data-link="hero"><span class="num">00</span>/index</a>
+        <a href="#about" data-link="about"><span class="num">01</span>/about</a>
+        <a href="#skills" data-link="skills"><span class="num">02</span>/stack</a>
+        <a href="#experience" data-link="experience"><span class="num">03</span>/experience</a>
+        <a href="#contact" data-link="contact"><span class="num">04</span>/contact</a>
+      </nav>
+      <button class="theme-toggle" id="theme-toggle">
+        <span id="theme-label">dark</span><span style="color:var(--fg-mute)">·</span><span id="theme-other" style="color:var(--fg-mute)">light</span>
+      </button>
+    </div>
+  </div>
+
+  <main class="page">
+    <div id="hero-mount"></div>
+    <div id="about-mount"></div>
+    <div id="skills-mount"></div>
+    <div id="marquee-mount"></div>
+    <div id="experience-mount"></div>
+    <div id="contact-mount"></div>
+  </main>
+
+  <div class="page">
+    <footer>
+      <div class="col">
+        <b>nikola ćehić</b>
+        senior fullstack engineer · belgrade, rs · remote-first<br/>
+        7+ yrs · web3 · fintech · enterprise
+      </div>
+      <div class="col" style="text-align:right">
+        <b>© 2026</b>
+        built in html/css/js · no frameworks · no trackers<br/>
+        last deploy: <span id="build-stamp"></span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Tweaks panel -->
+  <div class="tweaks" id="tweaks">
+    <header><span>tweaks</span><span id="tweaks-close" style="cursor:none">×</span></header>
+    <div class="row">
+      <span style="color:var(--fg-dim)">theme</span>
+      <div class="seg" id="theme-seg">
+        <button data-theme="dark" class="on">dark</button>
+        <button data-theme="light">light</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Config block for editor-mode persistence -->
+  <script>
+    window.TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "theme": "dark"
+    }/*EDITMODE-END*/;
+  </script>
+
+  <!-- React -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script src="src/animations.js"></script>
+  <script src="src/interactions.js"></script>
+  <script type="text/babel" src="src/data.jsx"></script>
+  <script type="text/babel" src="src/hero.jsx"></script>
+  <script type="text/babel" src="src/marquee.jsx"></script>
+  <script type="text/babel" src="src/experience.jsx"></script>
+  <script type="text/babel" src="src/sections.jsx"></script>
+  <script type="text/babel" src="src/main.jsx"></script>
+
+  <!-- Non-React chrome: cursor, reveals, nav, theme, tweaks -->
+  <script>
+    // Build stamp
+    document.getElementById('build-stamp').textContent =
+      new Date().toISOString().slice(0,16).replace('T',' ') + 'Z';
+
+    // Boot overlay
+    (function(){
+      const dots = document.getElementById('boot-dots');
+      let i = 0, steps = ['.','..','...'];
+      const t = setInterval(()=>{ dots.textContent = steps[i++%3]; }, 180);
+      window.addEventListener('load', () => {
+        setTimeout(()=>{
+          clearInterval(t);
+          document.getElementById('boot').classList.add('gone');
+          setTimeout(()=>document.getElementById('boot').remove(), 500);
+        }, 350);
+      });
+    })();
+
+    // Custom cursor
+    (function(){
+      const dot = document.querySelector('.cursor-dot');
+      const ring = document.querySelector('.cursor-ring');
+      let rx = window.innerWidth/2, ry = window.innerHeight/2;
+      let tx = rx, ty = ry;
+      document.addEventListener('mousemove', e => {
+        tx = e.clientX; ty = e.clientY;
+        dot.style.transform = `translate(${tx}px, ${ty}px) translate(-50%,-50%)`;
+      });
+      function loop(){
+        rx += (tx - rx) * 0.18;
+        ry += (ty - ry) * 0.18;
+        ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%,-50%)`;
+        requestAnimationFrame(loop);
+      }
+      loop();
+      // Hover states
+      document.addEventListener('mouseover', (e) => {
+        const t = e.target;
+        if (!t.closest) return;
+        if (t.closest('a, button, [data-hover]')) ring.classList.add('hover');
+        else ring.classList.remove('hover');
+        if (t.matches('input, textarea')) ring.classList.add('text');
+        else ring.classList.remove('text');
+      });
+    })();
+
+    // Scroll reveals (applied to .reveal elements)
+    (function(){
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(en => {
+          if (en.isIntersecting) {
+            en.target.classList.add('in');
+            io.unobserve(en.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      // rescan periodically for React-injected nodes
+      function rescan(){
+        document.querySelectorAll('.reveal:not(.in)').forEach(el => io.observe(el));
+      }
+      const mo = new MutationObserver(rescan);
+      mo.observe(document.body, { childList: true, subtree: true });
+      rescan();
+    })();
+
+    // Active nav link
+    (function(){
+      const links = [...document.querySelectorAll('[data-link]')];
+      const ids = links.map(l => l.dataset.link);
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(en => {
+          if (en.isIntersecting) {
+            const id = en.target.id;
+            links.forEach(l => l.classList.toggle('active', l.dataset.link === id));
+          }
+        });
+      }, { rootMargin: '-40% 0px -50% 0px' });
+      function rescan(){ ids.forEach(id => { const el = document.getElementById(id); if (el) io.observe(el); }); }
+      setTimeout(rescan, 500);
+      setTimeout(rescan, 1500);
+    })();
+
+    // Theme
+    (function(){
+      const root = document.documentElement;
+      const btn = document.getElementById('theme-toggle');
+      const label = document.getElementById('theme-label');
+      const other = document.getElementById('theme-other');
+      function apply(t){
+        root.setAttribute('data-theme', t);
+        label.textContent = t;
+        other.textContent = t === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('theme', t);
+        document.querySelectorAll('#theme-seg button').forEach(b => {
+          b.classList.toggle('on', b.dataset.theme === t);
+        });
+      }
+      const saved = localStorage.getItem('theme') || (window.TWEAK_DEFAULTS?.theme || 'dark');
+      apply(saved);
+      btn.addEventListener('click', () => apply(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+      document.querySelectorAll('#theme-seg button').forEach(b => {
+        b.addEventListener('click', () => {
+          apply(b.dataset.theme);
+          window.parent.postMessage({type:'__edit_mode_set_keys', edits:{theme: b.dataset.theme}}, '*');
+        });
+      });
+    })();
+
+    // Tweaks panel (host-controlled)
+    (function(){
+      const panel = document.getElementById('tweaks');
+      window.addEventListener('message', (e) => {
+        if (e.data?.type === '__activate_edit_mode') panel.classList.add('open');
+        if (e.data?.type === '__deactivate_edit_mode') panel.classList.remove('open');
+      });
+      document.getElementById('tweaks-close').addEventListener('click', () => panel.classList.remove('open'));
+      window.parent.postMessage({type: '__edit_mode_available'}, '*');
+    })();
+  </script>
+</body>
+</html>

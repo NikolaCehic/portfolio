@@ -1,0 +1,67 @@
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(12px);
+  background: color-mix(in oklab, var(--bg) 82%, transparent);
+  border-bottom: 1px solid var(--rule);
+}
+
+.inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 32px;
+  font-size: 12px;
+}
+
+@media (max-width: 720px) {
+  .inner {
+    padding: 12px 20px;
+    font-size: 11px;
+  }
+}
+
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-right: 8px;
+  box-shadow: 0 0 10px color-mix(in oklab, var(--accent) 70%, transparent);
+}
+
+.nav {
+  display: flex;
+  gap: 22px;
+}
+
+.nav a {
+  color: var(--fg-dim);
+}
+
+.nav a.active,
+.nav a:hover {
+  color: var(--fg);
+}
+
+.num {
+  color: var(--fg-mute);
+  margin-right: 4px;
+}
+
+@media (max-width: 720px) {
+  .nav {
+    display: none;
+  }
+}
+
+.muted {
+  color: var(--fg-mute);
+}
+.dim {
+  color: var(--fg-dim);
+}
